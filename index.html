@@ -60,6 +60,16 @@ select.sorter{background:var(--panel);color:var(--text);border:1px solid var(--l
 .bar .t{display:flex;justify-content:space-between;margin-bottom:2px}
 .bar .bg{height:5px;background:var(--panel2);border-radius:3px;overflow:hidden}
 .bar .fg{height:100%;border-radius:3px}
+.decide{display:flex;gap:8px}
+.dbtn{flex:1;padding:9px 10px;border-radius:8px;font-size:.85rem;font-weight:700;border:1.5px solid var(--line);background:var(--panel2);color:var(--muted);cursor:pointer;transition:all .15s}
+.dbtn.yes:hover,.dbtn.yes.on{background:rgba(74,222,128,.15);border-color:var(--accent);color:var(--accent)}
+.dbtn.no:hover,.dbtn.no.on{background:rgba(248,113,113,.12);border-color:var(--danger);color:var(--danger)}
+.card.decided-no{opacity:.38;filter:saturate(.4)}
+.card.decided-yes{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.queue-bar{position:sticky;bottom:12px;z-index:50;background:var(--panel2);border:1px solid var(--accent);border-radius:12px;padding:12px 16px;display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:24px;box-shadow:0 6px 24px rgba(0,0,0,.5)}
+.queue-bar .q-count{font-weight:700;color:var(--accent)}
+.queue-bar button{background:var(--accent);color:#04210f;border:none;border-radius:8px;padding:8px 14px;font-weight:700;cursor:pointer;font-size:.84rem}
+.queue-bar .q-list{color:var(--muted);font-size:.78rem;flex:1;min-width:200px}
 .actions{display:flex;gap:8px;margin-top:auto;align-items:center}
 .btn{flex:1;text-align:center;padding:8px 10px;border-radius:8px;font-size:.84rem;font-weight:600;border:1px solid var(--line);background:var(--panel2);color:var(--text);cursor:pointer}
 .btn.primary{background:var(--accent);color:#04210f;border-color:var(--accent)}
@@ -109,6 +119,8 @@ footer{margin:40px 0 20px;color:var(--muted);font-size:.75rem;border-top:1px sol
   <button class="fbtn" data-f="sustain">Sustainability</button>
   <button class="fbtn" data-f="remote">Fully remote</button>
   <button class="fbtn" data-f="urgent">Closing ≤ 7 days</button>
+  <button class="fbtn" data-f="shortlist">★ Will apply</button>
+  <button class="fbtn" data-f="undecided">Undecided</button>
   <select class="sorter" id="sorter">
     <option value="score">Sort: decision score</option>
     <option value="fit">Sort: fit</option>
@@ -117,6 +129,11 @@ footer{margin:40px 0 20px;color:var(--muted);font-size:.75rem;border-top:1px sol
   </select>
 </div>
 <div class="grid" id="jobs"></div>
+<div class="queue-bar" id="queueBar" style="display:none">
+  <span>★ Application queue: <span class="q-count" id="qCount">0</span></span>
+  <span class="q-list" id="qList"></span>
+  <button id="copyQueue">Copy list for Claude</button>
+</div>
 
 <div class="section-h"><h2>Decision matrix</h2><span class="sub">top-left = apply first (high fit, low effort)</span></div>
 <div class="quad-wrap">
@@ -284,6 +301,8 @@ function render(){
     if(f==="all") return true;
     if(f==="remote") return j.remote==="remote";
     if(f==="urgent"){ const d=daysLeft(j.deadline); return d!==null && d>=0 && d<=7; }
+    if(f==="shortlist") return store("dec_"+j.id)==="yes";
+    if(f==="undecided") return !store("dec_"+j.id) && j.verified!=="expired";
     return j.cat===f;
   });
   list.sort((a,b)=>{
@@ -300,7 +319,8 @@ function render(){
       `<span class="tag deadline ${dl<=7?"urgent":""}">${dl===0?"closes TODAY":"closes in "+dl+" day"+(dl===1?"":"s")} · ${j.deadline}</span>`;
     const ver = j.verified==="live"?`<span class="tag verified">✓ verified live 5 Jun</span>`:j.verified==="unverified"?`<span class="tag unverified">⚠ verify first</span>`:"";
     const st = store(j.id)||"To review";
-    return `<div class="card ${j.verified==="expired"?"expired":""}">
+    const dec = store("dec_"+j.id)||"";
+    return `<div class="card ${j.verified==="expired"?"expired":""} ${dec==="yes"?"decided-yes":dec==="no"?"decided-no":""}">
       <div class="cat-band" style="background:${CAT[j.cat]}"></div>
       <div class="fit-badge" style="border-color:${fitColor(j.fit)};color:${fitColor(j.fit)}">${j.fit}<small>FIT</small></div>
       <h3>${j.title}</h3><div class="org">${j.org}</div>
@@ -311,6 +331,10 @@ function render(){
       <div class="bars">${bar("mission",j.mission,CAT[j.cat])}${bar("skills",j.skills,"var(--accent2)")}${bar("light work",j.light,"var(--accent)")}</div>
       <p class="why"><b>Why you:</b> ${j.why}</p>
       <p class="risk"><b>Watch out:</b> ${j.risk}</p>
+      <div class="decide">
+        <button class="dbtn yes ${dec==="yes"?"on":""}" data-id="${j.id}" data-v="yes">★ Will apply</button>
+        <button class="dbtn no ${dec==="no"?"on":""}" data-id="${j.id}" data-v="no">✗ Won't apply</button>
+      </div>
       <div class="actions">
         <a class="btn primary" href="${j.link}" target="_blank">Open listing ↗</a>
         <select class="status s-${st.toLowerCase().replace(" ","")}" data-id="${j.id}">
@@ -321,7 +345,26 @@ function render(){
     </div>`;
   }).join("");
   document.querySelectorAll("select.status").forEach(s=>s.addEventListener("change",e=>{ setStore(e.target.dataset.id,e.target.value); render(); renderKpis(); }));
+  document.querySelectorAll(".dbtn").forEach(b=>b.addEventListener("click",e=>{
+    const id=b.dataset.id, v=b.dataset.v;
+    if(store("dec_"+id)===v){ localStorage.removeItem("ehjob_dec_"+id); } else { setStore("dec_"+id,v); }
+    render(); renderKpis();
+  }));
+  renderQueue();
   renderQuad(list);
+}
+
+function renderQueue(){
+  const q = JOBS.filter(j=>store("dec_"+j.id)==="yes");
+  const bar = document.getElementById("queueBar");
+  if(!bar) return;
+  bar.style.display = q.length? "flex":"none";
+  document.getElementById("qCount").textContent = q.length;
+  document.getElementById("qList").textContent = q.map((j,i)=>`${i+1}. ${j.title.split("—")[0].trim()} (${j.org.split("·")[0].split("(")[0].trim()})`).join("  ·  ");
+  document.getElementById("copyQueue").onclick = ()=>{
+    const txt = "APPLICATION QUEUE — EH Job Platform\n" + q.map((j,i)=>`${i+1}. ${j.title} — ${j.org}\n   fit ${j.fit} · ${j.hours} · ${j.salary} · deadline ${j.deadline||"none shown"}\n   ${j.link}`).join("\n") + "\n\nDeclined: " + JOBS.filter(j=>store("dec_"+j.id)==="no").map(j=>j.title).join("; ");
+    navigator.clipboard.writeText(txt).then(()=>{ document.getElementById("copyQueue").textContent="Copied ✓"; setTimeout(()=>document.getElementById("copyQueue").textContent="Copy list for Claude",1500); });
+  };
 }
 
 function renderKpis(){
@@ -329,11 +372,13 @@ function renderKpis(){
   const urgent = JOBS.filter(j=>{const d=daysLeft(j.deadline);return d!==null&&d>=0&&d<=7&&j.verified!=="expired";}).length;
   const remote = JOBS.filter(j=>j.remote==="remote"&&j.verified!=="expired").length;
   const applied = JOBS.filter(j=>["Applying","Applied","Interview"].includes(store(j.id))).length;
+  const shortlisted = JOBS.filter(j=>store("dec_"+j.id)==="yes").length;
   const best = JOBS.filter(j=>j.verified!=="expired").sort((a,b)=>decisionScore(b)-decisionScore(a))[0];
   document.getElementById("kpis").innerHTML = `
     <div class="kpi"><div class="n">${live}</div><div class="l">live leads</div></div>
     <div class="kpi"><div class="n" style="color:var(--danger)">${urgent}</div><div class="l">closing ≤ 7 days</div></div>
     <div class="kpi"><div class="n" style="color:var(--accent)">${remote}</div><div class="l">fully remote</div></div>
+    <div class="kpi"><div class="n" style="color:var(--accent)">★ ${shortlisted}</div><div class="l">will apply</div></div>
     <div class="kpi"><div class="n" style="color:var(--accent2)">${applied}</div><div class="l">in progress</div></div>
     <div class="kpi"><div class="n" style="font-size:.95rem;padding-top:8px">${best?best.org.split("·")[0]:"—"}</div><div class="l">top pick right now</div></div>`;
 }
