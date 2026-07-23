@@ -176,7 +176,7 @@ footer{margin:40px 0 20px;color:var(--muted);font-size:.75rem;border-top:1px sol
 </div>
 
 <footer>
-  Built 5 June 2026 · last refreshed 10 July 2026 (v6 — +5 leads incl. Warwick BREATHE Postdoctoral RA (PT 0.8 FTE, decolonial climate research, closes 23 Jul), Thames21 Reporting &amp; Finance Officer (1.5 days/wk, closes 31 Jul), Mercor Environmental Science Expert ($80–120/hr freelance); marked expired: LSE waste-law RO, Uplift Principal Policy Adviser &amp; Campaigner, Everyday Plastic PM, Runnymede RA (withdrawn — careers page empty 10 Jul); REF Head of Operations closes Mon 13 Jul 9am, Wildlife Trusts water policy ~12 Jul) · Listings verified against live pages where marked ✓ · Statuses &amp; notes are saved only in this browser (localStorage) · Pair with your CV versions in this folder — tailor one CV per application, UK style, 2 pages, achievement-led.
+  Built 5 June 2026 · last refreshed 23 July 2026 (v7 — +8 leads incl. Groundwork South Delivery Manager CAF (PT 18.75h/wk, climate × race equity, closes Sun 26 Jul), UCL STEaPP Lecturer (Teaching) in Science, Politics &amp; Public Policy (PT 18.25h/wk, maternity cover — SPRU's sister dept), HM Treasury Policy Adviser Science &amp; Innovation (closes 2 Aug), REF Changemaker ×2 &amp; Programme Coordinator (close 4 Aug 9am), Network Rail Sustainability Reporting Manager (PT, posted 23 Jul); Warwick BREATHE closes TONIGHT 23 Jul 23:55; marked expired: REF Head of Ops, MCS Marine Policy, Modeshift ATA, both River Action posts, Wildlife Trusts water policy, Big Chalk Fund Officer (queue #5); Runnymede careers page still empty 23 Jul) · Listings verified against live pages where marked ✓ · Statuses &amp; notes are saved only in this browser (localStorage) · Pair with your CV versions in this folder — tailor one CV per application, UK style, 2 pages, achievement-led.
 </footer>
 </div>
 
@@ -184,13 +184,61 @@ footer{margin:40px 0 20px;color:var(--muted);font-size:.75rem;border-top:1px sol
 const CAT = {climate:"var(--climate)", race:"var(--race)", research:"var(--research)", sustain:"var(--sustain)"};
 const TODAY = new Date(); TODAY.setHours(0,0,0,0);
 
-const JOBS = [
+let JOBS = [
+ {id:"groundwork-dm", title:"Delivery Manager — Climate Action Fund Training & Development (18.75h/wk)", org:"Groundwork South", cat:"climate", loc:"Home-based (some travel across England)", remote:"remote",
+  hours:"Part-time 18.75 h/week, fixed term to June 2031", salary:"£30,000–£34,000 FTE", deadline:"2026-07-26",
+  link:"https://environmentjob.co.uk/jobs/110954-delivery-manager-climate-action-fund-training-and-development", verified:"live",
+  fit:82, mission:88, skills:78, light:85, effort:3,
+  why:"The <b>climate × race-equity role you've been waiting for to re-advertise</b>: same Climate Action Fund programme as the June Senior Project Officer post, now as a <b>part-time (2.5 days) home-based Delivery Manager to 2031</b>. Co-produced resilience training with marginalised communities, partnering Equally Ours and the British Red Cross's VCSEP — an explicit rights-based, anti-'vulnerability-framing' agenda that joins your sustainability record to your race-equity advocacy. Stakeholder mapping, partnership management and training design are all in your wheelhouse.",
+  risk:"Wants community-engagement/development experience specifically — frame your coalition and community advocacy work (Black at Sussex, Waging Peace, ASI stakeholder rounds) hard. <b>Closes Sun 26 Jul, 11.59pm; interviews 30 Jul on MS Teams.</b>"},
+ {id:"ucl-steapp", title:"Lecturer (Teaching) in Science, Politics & Public Policy — maternity cover, 18.25h/wk", org:"UCL · Dept of Science, Technology, Engineering & Public Policy (STEaPP)", cat:"research", loc:"London (hybrid)", remote:"hybrid",
+  hours:"Part-time 18.25 h/week, fixed term 1 Sept 2026 – 31 Aug 2027", salary:"£54,932–£64,605 pro rata", deadline:null,
+  link:"https://www.linkedin.com/jobs/view/4443337844/", verified:"live",
+  fit:78, mission:82, skills:72, light:75, effort:3,
+  why:"UCL's STEaPP is the <b>sister department to your own SPRU</b> — science, technology and public policy in an engineering faculty. Half-time (18.25h) teaching post on their BSc/online MSc: course materials, supervision, the 'How to Change the World' programme. Accepts <b>PhD OR equivalent professional experience</b>, and UCL explicitly encourages Black and ethnic-minority applicants. A rare part-time academic post in your literal discipline, timed to run alongside the PhD year.",
+  risk:"Teaching-track: they want UG/PG teaching and course-leadership evidence — your strongest counter is training delivery, auditing instruction and guest-lecture experience; be honest about the gap. Closing date not shown on LinkedIn — <b>find the advert on UCL's jobs site and confirm before investing</b>. Starts 1 Sept, so expect a short window."},
+ {id:"hmt-sci", title:"Policy Adviser — Science & Innovation (SEO)", org:"HM Treasury", cat:"research", loc:"London or Darlington (hybrid)", remote:"hybrid",
+  hours:"Full-time by default — part-time, job-share, compressed and flexitime offered", salary:"£43,090 + 28.97% CS pension", deadline:"2026-08-02",
+  link:"https://www.linkedin.com/jobs/search/?keywords=HM%20Treasury%20Policy%20Adviser%20Science%20Innovation", verified:"live",
+  fit:68, mission:70, skills:75, light:45, effort:3,
+  why:"R&D and innovation spending policy <b>at the centre of government</b> — scrutinising DSIT programmes, space, engineering biology and international R&D. Your SPRU science-policy training is precisely this terrain, and 26 Sussex alumni work there. Application is CV + three 250-word behaviour statements (light for the civil service); experience is explicitly <b>not scored</b>, which levels the field for a career changer. Informal chat offered: Rory Allan (rory.allan@hmtreasury.gov.uk).",
+  risk:"Advertised full-time; part-time/job-share is 'where business needs allow' — ask Rory Allan before applying. Counter-terrorist-check vetting needs ~3 of the past 5 years UK-resident: check your dates. Whitehall office rhythm may breach your ≤2-day rule. <b>Closes Sun 2 Aug; interviews w/c 17 Aug.</b>"},
+ {id:"ref-changemaker", title:"Changemaker (×2 posts)", org:"Race Equality Foundation", cat:"race", loc:"Barking & Dagenham or Greater Manchester (hybrid)", remote:"hybrid",
+  hours:"Full-time 35h, permanent — regular office attendance expected", salary:"£51,754 (+£2,136 London Weighting)", deadline:"2026-08-04",
+  link:"https://raceequalityfoundation.org.uk/working-for-us/", verified:"live",
+  fit:64, mission:92, skills:72, light:30, effort:3,
+  why:"REF hiring round three of the year: senior <b>systems-change practitioner</b> roles delivering co-produced, evidence-led work on health inequalities and their wider determinants — leadership alongside lived-experience communities, councils and the VCS. Your mission-top organisation, at a serious salary, explicitly welcoming applicants with lived experience of racial inequality.",
+  risk:"Full-time, permanent, with regular office attendance in Barking & Dagenham or Manchester — the heaviest footprint on this board and a clear breach of the ≤2-day rule unless negotiated. Application form + 2–3-page supporting statement. <b>Closes 9am, 4 Aug.</b>"},
+ {id:"ref-pc", title:"Programme Coordinator", org:"Race Equality Foundation", cat:"race", loc:"London (hybrid)", remote:"hybrid",
+  hours:"Full-time 35h, permanent — regular London office attendance", salary:"£31,725", deadline:"2026-08-04",
+  link:"https://raceequalityfoundation.org.uk/working-for-us/", verified:"live",
+  fit:55, mission:88, skills:70, light:35, effort:2,
+  why:"The lighter of the two REF openings: coordination of a health systems-change programme tackling structural racism — project management, multiple priorities, partner logistics. Your PM toolkit (Lean Six Sigma, ISO programme discipline) over-qualifies you; mission fit is near-total.",
+  risk:"Junior salary for your experience and full-time London hybrid; treat as a fallback conversation-opener with REF rather than a lead application. <b>Closes 9am, 4 Aug</b> — same portal and monitoring form as the Changemaker posts."},
+ {id:"networkrail-esg", title:"Sustainability Reporting Manager (Part-time)", org:"Network Rail", cat:"sustain", loc:"Milton Keynes (hybrid)", remote:"hybrid",
+  hours:"Part-time", salary:"undisclosed", deadline:null,
+  link:"https://www.linkedin.com/jobs/view/4444409234/", verified:"live",
+  fit:74, mission:60, skills:90, light:65, effort:2,
+  why:"A <b>part-time sustainability reporting</b> post inside one of the UK's biggest infrastructure owners — ESG disclosure, data and assurance are the precise centre of your 14-year record (GHG accounting, ASI certification, ISO 14001 audits). Posted <b>hours ago with 3 applicants</b> when found: genuine first-mover advantage.",
+  risk:"Salary and days-per-week undisclosed; responses managed off LinkedIn, so the application runs on Network Rail's own portal. Milton Keynes office rhythm unknown — confirm the hybrid split. Corporate reporting cycle work can spike at year-end."},
+ {id:"sheffield-carequai", title:"Research Associate — CareQuAI (AI-driven platform care & job quality)", org:"University of Sheffield", cat:"research", loc:"Sheffield (hybrid) + UK/international fieldwork", remote:"hybrid",
+  hours:"Fixed term (international consortium project); part-time appeared in filters — confirm", salary:"£38,777–£47,364", deadline:null,
+  link:"https://www.linkedin.com/jobs/view/4438406231/", verified:"live",
+  fit:66, mission:78, skills:70, light:55, effort:3,
+  why:"Cross-national (UK/Finland/Sweden) project on how <b>AI-driven care platforms affect job quality, equality and inclusion</b> — qualitative case studies, participatory work on conversational AI, evidence-based policy guidance. The equality-centred AI research agenda rhymes with your PhD; accepts <b>PhD or equivalent research experience</b>.",
+  risk:"Long-term-care domain is new ground, and the post involves real fieldwork travel (UK sites plus consortium meetings abroad) — not a light desk role. Closing date and FTE not shown on LinkedIn; verify on Sheffield's jobs site before spending effort."},
+ {id:"ethos-ga", title:"Government Affairs / Policy Expert — AI training projects (freelance)", org:"Ethos (expert network)", cat:"research", loc:"UK (fully remote)", remote:"remote",
+  hours:"Flexible 5–20 h/week, own schedule", salary:"$70/hour (up to $1,400/week)", deadline:null,
+  link:"https://www.linkedin.com/jobs/search/?keywords=Ethos%20Expert%20Opportunity%20Government%20Affairs%20Analyst&location=United%20Kingdom", verified:"live",
+  fit:60, mission:50, skills:75, light:90, effort:1,
+  why:"Same marketplace family as Aptura/Mercor: <b>$70/hr creating and refining AI-generated policy briefs and briefing decks</b> for a frontier lab, 5–20 hours a week on your own schedule. Ethos also runs parallel 'Policy Director' and 'Management Consultant' ($100/hr) tracks. Your policy-brief craft plus PhD literacy is exactly what they price; stacks beside the PhD with near-zero application cost.",
+  risk:"Wants 3+ years at a think tank/policy institute — frame AfriSustain consulting and SPRU as research-institution experience. Expert-gig income, not career capital; vet hours floor and payment terms. Promoted listing churns — if the link dies, search 'Ethos expert opportunity' on LinkedIn."},
  {id:"warwick-breathe", title:"Postdoctoral Research Assistant — BREATHE (heat, indoor emissions & inequality), 0.8 FTE", org:"University of Warwick · Institute for Global Sustainable Development", cat:"research", loc:"Coventry (flexible working considered)", remote:"hybrid",
   hours:"Part-time 29.2 h/week (0.8 FTE) — lower FTE/job-share considered — 12-month fixed term", salary:"£35,608–£46,049 pro rata", deadline:"2026-07-23",
   link:"https://www.jobs.ac.uk/job/DSD087/postdoctoral-research-assistant-111629-0726", verified:"live",
   fit:84, mission:92, skills:80, light:70, effort:3,
   why:"British Academy project on how <b>historical and intersectional inequalities shape heat stress and indoor air pollution</b> in global-south households — combining archival history, colonial architectural legacies, household surveys, satellite data and <b>machine-learning models</b>. Decolonial climate research with an equity core: the closest thematic neighbour to your PhD (decolonising AI in Africa) seen on any board this cycle. Duties are desk-based: literature, publications, project admin. Explicitly open to lower part-time or job-share.",
-  risk:"'Postdoctoral' title — confirm with Dr Hita Unnikrishnan (Hita.Unnikrishnan@warwick.ac.uk) whether a near-complete PhD qualifies. Preference for South Asian archival experience (yours is African/Gulf). Coventry base; remote split not stated — ask before investing. Closes 23 Jul, 23:55."},
+  risk:"<b>CLOSES TONIGHT — Thu 23 Jul, 23:55.</b> 'Postdoctoral' title — confirm with Dr Hita Unnikrishnan (Hita.Unnikrishnan@warwick.ac.uk) whether a near-complete PhD qualifies. Preference for South Asian archival experience (yours is African/Gulf). Coventry base; remote split not stated. If tonight is too tight, note the contact for any re-advert."},
  {id:"thames21-finance", title:"Reporting and Finance Officer — The Roding Rises (1.5 days/wk)", org:"Thames21", cat:"sustain", loc:"London (Guildhall) + remote/flexible options", remote:"hybrid",
   hours:"Part-time 0.3 FTE (1.5 days/week, days flexible), 2.5 years to Mar 2029", salary:"£36,353–£38,536 pro rata", deadline:"2026-07-31",
   link:"https://environmentjob.co.uk/jobs/110921-reporting-and-finance-officer", verified:"live",
@@ -199,13 +247,13 @@ const JOBS = [
   risk:"Wants hands-on bookkeeping/budget administration experience — frame consultancy and project-budget work accordingly. Confirm how often the Guildhall base is expected. Closes 31 Jul; interviews w/c 10 Aug."},
  {id:"mcs-marine-policy", title:"Marine Policy Officer", org:"Marine Conservation Society", cat:"climate", loc:"Home-based (London access for events)", remote:"remote",
   hours:"Full-time 35h, 6-month fixed term", salary:"£30,360–£34,500", deadline:"2026-07-22",
-  link:"https://environmentjob.co.uk/jobs/110917-marine-policy-officer", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110917-marine-policy-officer", verified:"expired",
   fit:60, mission:65, skills:65, light:50, effort:3,
   why:"Remote-first policy post shaping how the <b>clean-energy transition protects marine life</b>: evidence-led briefings, parliamentary engagement, stakeholder groups. Your policy-analysis training and environmental-management record transfer; 6-month FTC keeps it a bounded commitment.",
   risk:"Full-time — breaches your light-work preference; and it asks for UK <b>marine</b> policy and legislation knowledge specifically, your weakest domain overlap. Closes 22 Jul."},
  {id:"modeshift-ata", title:"ATA Expansion & Legacy Officer (Active Travel Ambassadors)", org:"Modeshift", cat:"sustain", loc:"Home-based + national travel; Darlington ~monthly", remote:"remote",
   hours:"Full-time 37.5h, fixed term to Aug 2027 (extension expected)", salary:"£30,000–£36,000", deadline:"2026-07-20",
-  link:"https://environmentjob.co.uk/jobs/110863-active-travel-expansion-legacy-officer", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110863-active-travel-expansion-legacy-officer", verified:"expired",
   fit:58, mission:60, skills:72, light:45, effort:2,
   why:"Home-based national programme role growing school active-travel behaviour change: expansion planning, partnerships, resources, monitoring and evaluation — strong overlap with your programme-management and stakeholder-coalition record. Light application (CV + letter by email).",
   risk:"Full-time with national school/authority travel plus monthly Darlington — heavy footprint for a PhD-alongside role. Education/behaviour-change sector rather than your climate-policy core. Closes 20 Jul, 9am."},
@@ -241,19 +289,19 @@ const JOBS = [
   risk:"Derbyshire base — check how many days on site before applying (Brighton is a long way from Middleton). Posted 2 days ago, applications managed off LinkedIn; closing date not shown."},
  {id:"ref-hoo", title:"Head of Operations", org:"Race Equality Foundation", cat:"race", loc:"London", remote:"hybrid",
   hours:"Full-time 35h — hybrid, 2–3 days in office", salary:"£47,911–£53,890 incl. London Weighting", deadline:"2026-07-13",
-  link:"https://raceequalityfoundation.org.uk/working-for-us/", verified:"live",
+  link:"https://raceequalityfoundation.org.uk/working-for-us/", verified:"expired",
   fit:66, mission:92, skills:80, light:30, effort:3,
   why:"REF is hiring again — this time <b>Head of Operations</b>: HR, systems, processes and governance through a growth period. Your management systems record (ISO frameworks, audits, cross-functional ops at Qatalum) fits, inside the anti-racist organisation that topped your mission list.",
-  risk:"Full-time and 2–3 office days/week in London — breaches your ≤2-days-in-person rule and leaves little PhD room. Worth asking about flexibility given the strong mission fit. Closes 13 July, 9am."},
+  risk:"<b>Closed 13 July 2026.</b> REF immediately re-advertised: see the new Changemaker ×2 and Programme Coordinator posts (close 4 Aug) higher up this board."},
  {id:"riveraction-spam", title:"Senior Policy and Advocacy Manager", org:"River Action", cat:"climate", loc:"Home-based + regular London/UK travel", remote:"remote",
   hours:"Full-time 37.5h, permanent", salary:"£45,000–£55,000", deadline:"2026-07-15",
-  link:"https://environmentjob.co.uk/jobs/110827-senior-policy-and-advocacy-manager", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110827-senior-policy-and-advocacy-manager", verified:"expired",
   fit:62, mission:70, skills:65, light:50, effort:4,
   why:"Home-based senior policy role rescuing UK rivers — evidence-led policy analysis, consultation responses and APPG secretariat work. Your industrial water/effluent management experience gives an unusual polluter-side insight, and their DEI statement explicitly encourages imperfect matches to apply.",
-  risk:"Wants UK water-policy and Westminster experience specifically; full-time with regular travel. Application is heavy: CV + letter + a <b>2-page water-scarcity policy briefing</b>, reviewed on a rolling basis to 15 July — earlier is better."},
+  risk:"<b>Closed 15 July 2026.</b> River Action is now advertising a Head of Campaigns maternity cover (£60k, home-based, closes ~25 Jul) — campaigning-led, weaker fit, noted for the watchlist only."},
  {id:"riveraction-em", title:"Engagement Manager", org:"River Action", cat:"climate", loc:"Home-based + frequent London travel", remote:"remote",
   hours:"Full-time (confirm)", salary:"£42,000–£52,000 DOE", deadline:"2026-07-15",
-  link:"https://environmentjob.co.uk/jobs/110828-engagement-manager", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110828-engagement-manager", verified:"expired",
   fit:58, mission:65, skills:70, light:55, effort:3,
   why:"Strategic-partnerships and high-level relationship building for river restoration, home-based — plays to your stakeholder-engagement and partnership record (150-org coalitions, ASI certification stakeholders).",
   risk:"Frequent London travel and likely full-time; engagement/fundraising-adjacent rather than research. Posted hours ago — closing date not yet shown; confirm on the listing."},
@@ -289,7 +337,7 @@ const JOBS = [
   risk:"<b>Closed ~28 June 2026.</b> Senior transport-economics stretch anyway; kept for reference only."},
  {id:"wildlife-water-policy", title:"Public Affairs and Water Policy Officer", org:"The Wildlife Trusts", cat:"climate", loc:"London", remote:"hybrid",
   hours:"Full-time (confirm)", salary:"Up to £36,380", deadline:"2026-07-12",
-  link:"https://environmentjob.co.uk/jobs/110694-public-affairs-and-water-policy-officer", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110694-public-affairs-and-water-policy-officer", verified:"expired",
   fit:62, mission:65, skills:68, light:55, effort:3,
   why:"Westminster public-affairs and water-policy role <b>influencing parliamentarians</b> — policy-research and stakeholder-engagement work adjacent to your STS-policy training and environmental background. Posted 2 days ago.",
   risk:"London-based public-affairs role; likely full-time and politically focused (parliamentary lobbying) rather than academic research. Confirm hours and office/remote split."},
@@ -325,10 +373,10 @@ const JOBS = [
   risk:"53 applicants in first 2 days — move fast and lead with quantified Qatalum results. Salary not disclosed; hybrid London."},
  {id:"procurement-pt", title:"Part-time Sustainable Procurement Manager", org:"Public sector org via Covent Garden Recruitment", cat:"sustain", loc:"SW London", remote:"hybrid",
   hours:"Part-time", salary:"£30,000 actual (≈£50k FTE)", deadline:null,
-  link:"https://jobs.theguardian.com/jobs/environment-green-and-sustainable/part-time/", verified:"live",
+  link:"https://jobs.theguardian.com/jobs/environment-green-and-sustainable/part-time/", verified:"unverified",
   fit:78, mission:65, skills:95, light:70, effort:2,
   why:"Direct hit on your <b>Senior Buyer–Recycling CV version</b>: sustainable procurement, public sector, part-time at a serious salary. Few candidates combine procurement + ESG depth like you.",
-  risk:"Posted 14 days ago via recruiter — may be closing; on Guardian Jobs list (search 'Sustainable Procurement Manager'). Confirm office days."},
+  risk:"Posted mid-June via recruiter and not re-confirmable without the Guardian Jobs page (checked 23 Jul) — downgraded to unverified; assume filled unless the search still surfaces it."},
  {id:"coram", title:"Policy and Research Officer", org:"Coram (children's charity)", cat:"research", loc:"Wales / UK", remote:"remote",
   hours:"Part-time", salary:"£21.6K/yr", deadline:null,
   link:"https://www.linkedin.com/jobs/view/4424718359/", verified:"live",
@@ -379,10 +427,10 @@ const JOBS = [
   risk:"Closed 9 Jun 2026. Scotland-focused programme; watch Changeworks for similar remote roles."},
  {id:"bigchalk", title:"Big Chalk Nature Recovery Fund Officer", org:"National Landscapes Association", cat:"sustain", loc:"Home-based", remote:"remote",
   hours:"30 hrs/week", salary:"£40,000 FTE (£32,400 actual)", deadline:null,
-  link:"https://environmentjob.co.uk/jobs/110380-big-chalk-nature-recovery-fund-officer", verified:"live",
+  link:"https://environmentjob.co.uk/jobs/110380-big-chalk-nature-recovery-fund-officer", verified:"expired",
   fit:64, mission:60, skills:75, light:70, effort:3,
   why:"Pure desk role: grant fund administration for a 150-org nature partnership. Home-working. Your project/fund management record (≈$170M savings) over-qualifies you.",
-  risk:"30h may exceed a 20h cap if that ever applies to you; conservation-specific knowledge expected."},
+  risk:"<b>No longer listed on environmentjob (checked 23 Jul 2026)</b> — treating as closed. Was queue item #5; if you applied, chase; if not, watch National Landscapes Association for re-adverts."},
  {id:"everyday-plastic", title:"Project Manager", org:"Everyday Plastic / The Big Plastic Count", cat:"sustain", loc:"Remote (UK)", remote:"remote",
   hours:"3 days/week, 12-month rolling", salary:"£35,000 pro rata", deadline:"2026-07-03",
   link:"https://environmentjob.co.uk/jobs/110399-project-manager", verified:"expired",
@@ -543,7 +591,14 @@ document.querySelectorAll(".fbtn").forEach(b=>b.addEventListener("click",()=>{
   b.classList.add("active"); render();
 }));
 document.getElementById("sorter").addEventListener("change",render);
-renderKpis(); render();
+function __boot(){ renderKpis(); render(); }
+// ORDER-05 Gap 2: prefer jobs.json (machine-readable source) when served over http(s);
+// fall back to the inline JOBS above when opened via file:// (fetch is blocked there).
+// Data in jobs.json is generated FROM the inline array, so rendering is identical either way.
+fetch('jobs.json').then(function(r){return r.ok?r.json():Promise.reject();})
+  .then(function(d){ if(Array.isArray(d)&&d.length) JOBS=d; })
+  .catch(function(){})
+  .finally(__boot);
 </script>
 </body>
 </html>
